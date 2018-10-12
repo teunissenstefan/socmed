@@ -1,0 +1,1 @@
+<li class="list-group-item">{{$comment->user->name}} {{$comment->user->lastname}}: {!! nl2br(e($comment->content)) !!}</li>

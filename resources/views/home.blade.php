@@ -28,16 +28,7 @@
             </div>
 
             @foreach($statuses as $status)
-            <br/>
-            <div class="card">
-                <div class="card-header"><a href="naarprofielgaan">{{$status->user->name}} {{$status->user->lastname}}</a> on <a href="naarpostgaan">{{$status->created_at->format('d/m/Y')}} at {{$status->created_at->format('H:i')}}</a></div>
-
-                <div class="card-body">
-
-
-                    {!! nl2br(e($status->content)) !!}
-                </div>
-            </div>
+                    @include('bits.status')
             @endforeach
 
         </div>

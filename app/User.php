@@ -27,4 +27,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function statuses(){
+        return $this->hasMany('App\Status','poster','id')->orderBy('created_at','desc');
+    }
 }

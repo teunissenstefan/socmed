@@ -12,9 +12,10 @@
 */
 
 Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/submit', 'StatusController@store');
-
+Route::get('/profile/{id}', 'HomeController@profile')->name('profile');
+Route::get('/status/{id}', 'StatusController@show')->name('status');
+Route::post('/comments/submit', 'CommentController@store');
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

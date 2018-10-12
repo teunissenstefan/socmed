@@ -2,21 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Status;
 use App\Comment;
+use Validator;
 use Auth;
 use Session;
 use Redirect;
 use Illuminate\Http\Request;
-use Validator;
 use Illuminate\Support\Facades\Input;
 
-class StatusController extends Controller
+class CommentController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -46,53 +41,47 @@ class StatusController extends Controller
     public function store(Request $request)
     {
         $rules = array(
-            'status'       => 'required'
+            'comment'       => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process
         if ($validator->fails()) {
-            return Redirect::to('/')
+            return Redirect::to('/status/'.Input::get('status'))
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
             // store
-            $status = new Status;
-            $status->content       = Input::get('status');
-            $status->poster       = Auth::user()->id;
-            $status->save();
+            $comment = new Comment;
+            $comment->content       = Input::get('comment');
+            $comment->poster       = Auth::user()->id;
+            $comment->status       = Input::get('status');
+            $comment->save();
 
             // redirect
-            Session::flash('status', 'Status posted!');
-            return Redirect::to('/');
+            Session::flash('status', 'Comment posted!');
+            return Redirect::to('/status/'.Input::get('status'));
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Status  $status
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Comment $comment)
     {
-        $status = Status::find($id);
-        if ($status === null) {
-            abort(404);
-        }
-        $data = [
-            'status' => $status
-        ];
-        return view('status')->with($data);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Status  $status
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function edit(Status $status)
+    public function edit(Comment $comment)
     {
         //
     }
@@ -101,10 +90,10 @@ class StatusController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Status  $status
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Status $status)
+    public function update(Request $request, Comment $comment)
     {
         //
     }
@@ -112,10 +101,10 @@ class StatusController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Status  $status
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Status $status)
+    public function destroy(Comment $comment)
     {
         //
     }
