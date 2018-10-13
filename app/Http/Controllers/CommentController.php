@@ -104,8 +104,20 @@ class CommentController extends Controller
      * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy(Request $request, $id)
     {
-        //
+        $comment = Comment::find($id);
+        $post = $comment->status;
+        if(Auth::user()->id==$comment->user->id){
+            $comment->delete();
+
+            // redirect
+            Session::flash('status', 'Successfully deleted the comment!');
+            return Redirect::to('/status/'.$post);
+        }else{
+            Session::flash('status', 'Could not delete the comment!');
+            return Redirect::to('/status/'.$post);
+        }
+
     }
 }

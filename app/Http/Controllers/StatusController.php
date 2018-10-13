@@ -115,8 +115,20 @@ class StatusController extends Controller
      * @param  \App\Status  $status
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Status $status)
+    public function destroy(Request $request, $id)
     {
-        //
+        $status = Status::find($id);
+        $user = $status->poster;
+        if(Auth::user()->id==$user){
+            $status->delete();
+
+            // redirect
+            Session::flash('status', 'Successfully deleted the status!');
+            return Redirect::to('/profile/'.$user);
+        }else{
+            Session::flash('status', 'Could not delete the status!');
+            return Redirect::to('/status/'.$id);
+        }
+
     }
 }
