@@ -5,15 +5,19 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
+                    <div class="alert alert-success" role="alert">{{ session('status') }}</div>
                 @endif
 
                 <div class="card">
-                    <div class="card-header">{{$user->name}} {{$user->lastname}}</div>
+                    <div class="card-header">
+                        {{$user->name}} {{$user->lastname}}
+                        @if(Auth::user()->id==$user->id)
+                            <a href="{{route('profileedit', $user->id)}}" class="float-right">Edit</a>
+                        @endif
+                    </div>
                     <div class="card-body">
-                        informatie
+                        Gender: {{$user->sex->gender}}<br/>
+                        Birthdate: {{$user->birthdate}}
                     </div>
                 </div>
 

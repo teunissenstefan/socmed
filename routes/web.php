@@ -14,8 +14,10 @@
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/submit', 'StatusController@store');
-Route::get('/profile/{id}', 'HomeController@profile')->name('profile');
-Route::get('/status/{id}', 'StatusController@show')->name('status');
+Route::get('/profile/{id}', 'UserController@show')->name('profile');
+Route::get('/profile/{id}/edit', 'UserController@edit')->name('profileedit');
+Route::put('/profile/{id}', 'UserController@update')->name('profileupdate');
+Route::get('/status/{id}', 'StatusController@update')->name('status');
 Route::delete('/status/{id}', 'StatusController@destroy')->name('delstatus');
 Route::post('/comments/submit', 'CommentController@store');
 Route::delete('/comments/{id}', 'CommentController@destroy')->name('delcomment');

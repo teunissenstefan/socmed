@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'lastname', 'email', 'password',
+        'name', 'lastname', 'birthdate', 'gender', 'email', 'password',
     ];
 
     /**
@@ -30,5 +30,9 @@ class User extends Authenticatable
 
     public function statuses(){
         return $this->hasMany('App\Status','poster','id')->orderBy('created_at','desc');
+    }
+
+    public function sex(){
+        return $this->hasOne('App\Gender','id','gender');
     }
 }

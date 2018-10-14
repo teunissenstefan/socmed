@@ -40,6 +40,48 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="birthdate" class="col-md-4 col-form-label text-md-right">{{ __('Birthdate') }}</label>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control {{ $errors->has('birthdate') ? ' is-invalid' : '' }}" id="d" name="birthdate" value="" readonly/>
+
+                                    @if ($errors->has('birthdate'))
+                                        <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('birthdate') }}</strong>
+                                    </span>
+                                    @endif
+
+                                    <div id="z"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select id="gender" class="form-control {{ $errors->has('gender') ? ' is-invalid' : '' }}" name="gender">
+                                        @foreach($genders as $gender)
+                                            @if(Input::old('gender')==$gender->id)
+                                                <option value="{{$gender->id}}" selected>{{$gender->gender}}</option>
+                                            @else
+                                                <option value="{{$gender->id}}">{{$gender->gender}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                @if ($errors->has('gender'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('gender') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
@@ -88,4 +130,22 @@
         </div>
     </div>
 </div>
+<script>
+    $( function() {
+        $('#z').datepicker({
+            inline: true,
+            altField: '#d',
+            minDate: "-100Y",
+            maxDate: "-1D",
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "yy-mm-dd"
+        });
+
+        $('#d').change(function(){
+            $('#z').datepicker('setDate', $(this).val());
+        });
+        $('#z').datepicker('setDate', "{{ old('birthdate') }}");
+    } );
+</script>
 @endsection
