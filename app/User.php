@@ -35,4 +35,57 @@ class User extends Authenticatable
     public function sex(){
         return $this->hasOne('App\Gender','id','gender');
     }
+
+    function pendingFriendRequests()
+    {
+        return $this->belongsToMany('App\User', 'friends', 'user_id', 'friend_id')
+            ->orderBy('friends.created_at', 'desc')
+            ->wherePivot('accepted', '=', 0)
+            ->withPivot('accepted');
+    }
+
+    function pendingFriendRequestsForMe()
+    {
+        return $this->belongsToMany('App\User', 'friends', 'friend_id', 'user_id')
+            ->orderBy('friends.created_at', 'desc')
+            ->wherePivot('accepted', '=', 0)
+            ->withPivot('accepted');
+    }
+
+    //hier alle echte vrienden laden
+    function friendsOfMine()
+    {
+        return $this->belongsToMany('App\User', 'friends', 'user_id', 'friend_id')
+            ->wherePivot('accepted', '=', 1) // to filter only accepted
+            ->withPivot('accepted'); // or to fetch accepted value
+    }
+
+    function friendOf()
+    {
+        return $this->belongsToMany('App\User', 'friends', 'friend_id', 'user_id')
+            ->wherePivot('accepted', '=', 1)
+            ->withPivot('accepted');
+    }
+
+    public function getFriendsAttribute()
+    {
+        if ( ! array_key_exists('friends', $this->relations)) $this->loadFriends();
+
+        return $this->getRelation('friends');
+    }
+
+    protected function loadFriends()
+    {
+        if ( ! array_key_exists('friends', $this->relations))
+        {
+            $friends = $this->mergeFriends();
+
+            $this->setRelation('friends', $friends);
+        }
+    }
+
+    protected function mergeFriends()
+    {
+        return $this->friendsOfMine->merge($this->friendOf);
+    }
 }

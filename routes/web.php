@@ -17,9 +17,10 @@ Route::post('/submit', 'StatusController@store');
 Route::get('/profile/{id}', 'UserController@show')->name('profile');
 Route::get('/profile/{id}/edit', 'UserController@edit')->name('profileedit');
 Route::put('/profile/{id}', 'UserController@update')->name('profileupdate');
-Route::get('/status/{id}', 'StatusController@update')->name('status');
+Route::get('/status/{id}', 'StatusController@show')->name('status');
 Route::delete('/status/{id}', 'StatusController@destroy')->name('delstatus');
 Route::post('/comments/submit', 'CommentController@store');
 Route::delete('/comments/{id}', 'CommentController@destroy')->name('delcomment');
+Route::get('/friends','FriendController@index')->name('friends.show');
 
 Auth::routes();
