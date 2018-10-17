@@ -86,13 +86,21 @@ class UserController extends Controller
     public function show(Request $request, $id)
     {
         $user = User::find($id);
-        //$statuses = Status::where('poster',$id)->orderBy('created_at','desc')->get();
+        if($user->friends->contains('id',Auth::user()->id)){
+            $friendStatus = "unfriend";
+        }else if($user->pendingFriendRequests->contains('id',Auth::user()->id)){
+            $friendStatus = "accept";
+        }else if($user->pendingFriendRequestsForMe->contains('id',Auth::user()->id)){
+            $friendStatus = "cancel";
+        }else{
+            $friendStatus = "befriend";
+        }
         if ($user === null) {
             abort(404);
         }
         $data = [
             'user' => $user,
-            //'statuses' => $statuses
+            'friendStatus' => $friendStatus
         ];
         return view('users.profile')->with($data);
     }

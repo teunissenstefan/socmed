@@ -5,7 +5,7 @@
         on
         <a href="{{route('status', ['id' => $status->id])}}">{{$status->created_at->format('d/m/Y')}} at {{$status->created_at->format('H:i')}}</a>
         @if(Auth::user()->id==$status->user->id)
-            <a href="#" data-href="{{route('delstatus', $status->id)}}" data-toggle="modal" data-target="#confirm-delete" class="float-right">Delete</a>
+            <a href="#" data-href="{{route('delstatus', $status->id)}}" data-toggle="modal" data-target="#confirm-delete" class="btn btn-secondary btn-sm float-right">Delete</a>
         @endif
     </div>
 

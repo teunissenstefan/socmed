@@ -22,5 +22,9 @@ Route::delete('/status/{id}', 'StatusController@destroy')->name('delstatus');
 Route::post('/comments/submit', 'CommentController@store');
 Route::delete('/comments/{id}', 'CommentController@destroy')->name('delcomment');
 Route::get('/friends','FriendController@index')->name('friends.show');
+Route::get('/addfriend/{id}','FriendController@addfriend')->name('friends.add');
+Route::get('/cancelrequest/{id}','FriendController@cancelrequest')->name('friends.cancel');
+Route::get('/acceptrequest/{id}','FriendController@acceptrequest')->name('friends.accept');
+Route::delete('/unfriend/{id}','FriendController@unfriend')->name('friends.unfriend');
 
 Auth::routes();
