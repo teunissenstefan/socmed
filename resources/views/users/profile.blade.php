@@ -32,7 +32,7 @@
                 </div>
 
                 @foreach($user->statuses as $status)
-                        @include('bits.status')
+                    @include('bits.status')
                 @endforeach
 
             </div>
