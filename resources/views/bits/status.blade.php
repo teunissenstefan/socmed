@@ -14,7 +14,7 @@
 
         {!! nl2br(e($status->content)) !!}
     </div>
-    <ul class="list-group list-group-flush">
+    <ul class="list-group list-group-flush" id="comments{{$status->id}}">
         <li class="list-group-item">
             {{ Html::ul($errors->all()) }}
 
@@ -31,8 +31,15 @@
             {{ Form::close() }}
         </li>
 
-        @foreach($status->comments as $comment)
-            @include('bits.comment')
-        @endforeach
+        <?php $comments = $status->comments; ?>
     </ul>
 </div>
+<script>
+    $.ajax({
+        url: "{{route('getcomments', ['id' => $status->id, 'start' => 0])}}",
+        cache: false,
+        success: function(html){
+            $("#comments{{$status->id}}").append(html);
+        }
+    });
+</script>

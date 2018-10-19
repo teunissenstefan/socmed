@@ -64,6 +64,34 @@ class CommentController extends Controller
         }
     }
 
+    public function getcomments(Request $request, $id, $start){
+        $incr = 5;
+        $startOffset = 3;
+        if($start==0){ $incr = 2; $startOffset = 0;}
+        $offset = ($start * $incr) - $startOffset;
+        $comments = Comment::where('status',$id)->orderBy('created_at','desc')->limit($incr)->offset($offset)->get();
+        $moreAvailable = $this->checkmorecomments($id,$start+1);
+        $data = [
+            'comments' => $comments,
+            'moreAvailable' => $moreAvailable,
+            'id' => $id,
+            'start' => $start+1
+        ];
+        return view('bits.getcomments')->with($data);
+    }
+
+    protected function checkmorecomments($id,$start){
+        $incr = 5;
+        $startOffset = 3;
+        if($start==0){ $incr = 2; $startOffset = 0;}
+        $offset = ($start * $incr) - $startOffset;
+        $comments = Comment::where('status',$id)->orderBy('created_at','desc')->limit($incr)->offset($offset)->get();
+        if(count($comments)>0){
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Display the specified resource.
      *

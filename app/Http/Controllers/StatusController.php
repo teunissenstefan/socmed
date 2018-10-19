@@ -77,6 +77,7 @@ class StatusController extends Controller
     public function show($id)
     {
         $status = Status::find($id);
+
         if ($status === null) {
             abort(404);
         }
