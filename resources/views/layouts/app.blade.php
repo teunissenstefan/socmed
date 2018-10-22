@@ -40,9 +40,15 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        @guest
+                        @else
+                            <form class="form-inline"method="post" action="{{route('processSearchForm')}}">
+                                <input class="form-control mr-sm-2" name="searchQuery" value="@if(isset($searchQuery)){{$searchQuery}}@endif" type="search" placeholder="Search people" aria-label="Search">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                            </form>
+                        @endif
                     </ul>
-
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Status;
 use App\User;
 use Auth;
+use Illuminate\Support\Facades\Redirect;
+use Input;
 
 class HomeController extends Controller
 {
@@ -32,5 +34,19 @@ class HomeController extends Controller
             $combinedCollection = $combinedCollection->merge($friend->statuses);
         }
         return view('home')->with('statuses',$combinedCollection->sortByDesc('created_at'));
+    }
+
+    public function search(Request $request, $searchQuery){
+        $users =  User::where('email', $searchQuery)->orWhere('name', 'like', '%' . $searchQuery . '%')->get();
+        $data = [
+            'users' => $users,
+            'searchQuery' => $searchQuery
+        ];
+        return view('search')->with($data);
+    }
+
+    public function processSearchForm(Request $request){
+        $searchQuery = Input::get('searchQuery');
+        return Redirect::to('search/'.$searchQuery) ;
     }
 }
