@@ -28,7 +28,11 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        //$statuses = Status::orderBy('created_at','desc')->get();
+        $friends = Auth::user()->friends;
+        if(count($friends)==0){
+            $statuses = Status::orderBy('created_at','desc')->get();
+            return view('home')->with('statuses',$statuses);
+        }
         $combinedCollection = Auth::user()->statuses;
         foreach (Auth::user()->friends as $friend){
             $combinedCollection = $combinedCollection->merge($friend->statuses);
