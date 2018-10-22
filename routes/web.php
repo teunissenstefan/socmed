@@ -14,6 +14,8 @@
 //Main routes
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
+
+//Search routes
 Route::get('/search/{searchQuery}', 'HomeController@search')->name('search');
 Route::post('/searchprocess', 'HomeController@processSearchForm')->name('processSearchForm');
 
