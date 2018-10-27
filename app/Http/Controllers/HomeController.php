@@ -41,7 +41,8 @@ class HomeController extends Controller
     }
 
     public function search(Request $request, $searchQuery){
-        $users =  User::where('email', $searchQuery)->orWhere('name', 'like', '%' . $searchQuery . '%')->get();
+        //$users =  User::where('email', $searchQuery)->orWhere('name', 'like', '%' . $searchQuery . '%')->get(); //de oude
+        $users =  User::whereRaw('concat(name," ",lastname) like ?', "%{$searchQuery}%")->orWhere('email', $searchQuery)->get();
         $data = [
             'users' => $users,
             'searchQuery' => $searchQuery
