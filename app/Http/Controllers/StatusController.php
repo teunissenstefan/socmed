@@ -7,6 +7,7 @@ use App\Comment;
 use Auth;
 use Session;
 use Redirect;
+use App\User;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Facades\Input;
@@ -35,6 +36,26 @@ class StatusController extends Controller
     public function create()
     {
         //
+    }
+
+    public function getstatuseshome($start){
+        $incr = 5;
+        $offset = ($start * $incr);
+
+        $friends = Auth::user()->friends;
+        if(count($friends)==0){
+            $statuses = Status::orderBy('created_at','desc')->limit($incr)->offset($offset)->get();
+            return view('bits.getstatuses')->with('statuses',$statuses);
+        }
+        $combinedCollection = Auth::user()->statuses;
+        foreach (Auth::user()->friends as $friend){
+            $combinedCollection = $combinedCollection->merge($friend->statuses);
+        }
+        return view('bits.getstatuses')->with('statuses',$combinedCollection->sortByDesc('created_at'));
+    }
+
+    public function getstatusesprofile($id,$start){
+        return view('bits.getstatuses')->with('statuses',User::find($id)->statuses);
     }
 
     /**

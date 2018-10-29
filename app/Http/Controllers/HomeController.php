@@ -28,16 +28,17 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $friends = Auth::user()->friends;
-        if(count($friends)==0){
-            $statuses = Status::orderBy('created_at','desc')->get();
-            return view('home')->with('statuses',$statuses);
-        }
-        $combinedCollection = Auth::user()->statuses;
-        foreach (Auth::user()->friends as $friend){
-            $combinedCollection = $combinedCollection->merge($friend->statuses);
-        }
-        return view('home')->with('statuses',$combinedCollection->sortByDesc('created_at'));
+//        $friends = Auth::user()->friends;
+//        if(count($friends)==0){
+//            $statuses = Status::orderBy('created_at','desc')->get();
+//            return view('home')->with('statuses',$statuses);
+//        }
+//        $combinedCollection = Auth::user()->statuses;
+//        foreach (Auth::user()->friends as $friend){
+//            $combinedCollection = $combinedCollection->merge($friend->statuses);
+//        }
+//        return view('home')->with('statuses',$combinedCollection->sortByDesc('created_at'));
+        return view('home');
     }
 
     public function search(Request $request, $searchQuery){

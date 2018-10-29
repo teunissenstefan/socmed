@@ -28,6 +28,8 @@ Route::put('/profile/{id}', 'UserController@update')->name('profileupdate');
 Route::post('/submit', 'StatusController@store');
 Route::get('/status/{id}', 'StatusController@show')->name('status');
 Route::delete('/status/{id}', 'StatusController@destroy')->name('delstatus');
+Route::get('/status/start/{start}', 'StatusController@getstatuseshome')->name('getstatuseshome');
+Route::get('/status/user/{id}/start/{start}', 'StatusController@getstatusesprofile')->name('getstatusesprofile');
 
 //Comments routes
 Route::post('/comments/submit', 'CommentController@store');
