@@ -65,7 +65,11 @@ class StatusController extends Controller
     }
 
     public function getstatusesprofile($id,$start){
-        return view('bits.getstatuses')->with('statuses',User::find($id)->statuses);
+        $incr = 5;
+        $offset = ($start * $incr);
+        $statuses = Status::where('poster','=',$id)->orderBy('created_at','desc')->limit($incr)->offset($offset)->get();
+//        return $statuses;
+        return view('bits.getstatuses')->with('statuses',$statuses);
     }
 
     /**

@@ -44,5 +44,27 @@
             $("#statuscontainer").append(html);
         }
     });
+
+    var processing = false;
+    var start = 1;
+    document.addEventListener('scroll', function (event) {
+        if ($(window).scrollTop() >= ($(document).height() - $(window).height())*0.9){
+            if(processing==false){
+                console.log("ay");
+                processing = true;
+                var url = '{{route('getstatusesprofile', ['id' => $user->id,'start' => ':start'])}}';
+                url = url.replace(':start', start);
+                $.ajax({
+                    url: url,
+                    cache: false,
+                    success: function(html){
+                        processing = false;
+                        $("#statuscontainer").append(html);
+                        start++;
+                    }
+                });
+            }
+        }
+    }, true);
 </script>
 @endsection
