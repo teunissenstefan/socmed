@@ -10,6 +10,7 @@ use Redirect;
 use App\User;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 
 class StatusController extends Controller
@@ -47,11 +48,20 @@ class StatusController extends Controller
             $statuses = Status::orderBy('created_at','desc')->limit($incr)->offset($offset)->get();
             return view('bits.getstatuses')->with('statuses',$statuses);
         }
-        $combinedCollection = Auth::user()->statuses;
-        foreach (Auth::user()->friends as $friend){
-            $combinedCollection = $combinedCollection->merge($friend->statuses);
-        }
-        return view('bits.getstatuses')->with('statuses',$combinedCollection->sortByDesc('created_at'));
+        $combinedCollection = Status::select('*')
+            ->whereIn('poster', function($query){
+                $query->select('friend_id')
+                    ->from('friends')
+                    ->where('user_id','=',Auth::user()->id)
+                    ->orWhere('friend_id','=',Auth::user()->id);
+            })
+            ->orWhereIn('poster', function($query){
+                $query->select('user_id')
+                    ->from('friends')
+                    ->where('user_id','=',Auth::user()->id)
+                    ->orWhere('friend_id','=',Auth::user()->id);
+            })->orderBy('created_at','desc')->limit($incr)->offset($offset)->get();
+        return view('bits.getstatuses')->with('statuses',$combinedCollection);
     }
 
     public function getstatusesprofile($id,$start){
