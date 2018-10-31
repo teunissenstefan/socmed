@@ -11,8 +11,11 @@
 
     <div class="card-body">
 
-
-        {!! nl2br(e($status->content)) !!}
+        @if($status->type=='image')
+            <a href="{{url('images').'/'.$status->content}}" data-toggle="lightbox"><img src="{{url('images').'/'.$status->content}}" class="col-12"/></a>
+        @else
+            {!! nl2br(e($status->content)) !!}
+        @endif
     </div>
     <ul class="list-group list-group-flush" id="comments{{$status->id}}">
         <li class="list-group-item">

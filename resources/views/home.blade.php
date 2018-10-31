@@ -11,20 +11,50 @@
             @endif
 
             <div class="card">
-                <div class="card-header">How are you feeling?</div>
-                <div class="card-body">
-                    {{ Html::ul($errors->all()) }}
+                <div id="tabs">
+                    <ul>
+                        <li><a href="#tabs-1">Text</a></li>
+                        <li><a href="#tabs-2">Image</a></li>
+                        <li><a href="#tabs-3">Video</a></li>
+                    </ul>
+                    <div id="tabs-1">
+                        How are you feeling?
+                        <div class="card-body">
+                            {{ Html::ul($errors->all()) }}
 
-                    {{ Form::open(array('url' => '/submit')) }}
+                            {{ Form::open(array('url' => '/submit')) }}
 
-                    <div class="form-group">
-                        {{ Form::textarea('status', Input::old('status'), array('class' => 'form-control', 'rows' => 2)) }}
+                            <div class="form-group">
+                                {{ Form::textarea('status', Input::old('status'), array('class' => 'form-control', 'rows' => 2)) }}
+                            </div>
+
+                            {{ Form::submit('Submit status', array('class' => 'btn btn-primary')) }}
+
+                            {{ Form::close() }}
+                        </div>
                     </div>
+                    <div id="tabs-2">
+                        Select an image
+                        <div class="card-body">
+                            {{ Html::ul($errors->all()) }}
 
-                    {{ Form::submit('Submit status', array('class' => 'btn btn-primary')) }}
+                            {{ Form::open(['route' => 'submitimage', 'files' => true]) }}
 
-                    {{ Form::close() }}
+                            <div class="form-group">
+                                {{Form::label('user_photo', 'Image',['class' => 'control-label'])}}
+                                {{Form::file('user_photo')}}
+                            </div>
+
+                            {{ Form::submit('Submit image', array('class' => 'btn btn-primary')) }}
+
+                            {{ Form::close() }}
+                        </div>
+                    </div>
+                    <div id="tabs-3">
+                        Video uploaden
+                    </div>
                 </div>
+
             </div>
 
 
@@ -33,6 +63,10 @@
     </div>
 </div>
 <script>
+    $( function() {
+        $( "#tabs" ).tabs();
+    } );
+
     $.ajax({
         url: "{{route('getstatuseshome', ['start' => 0])}}",
         cache: false,

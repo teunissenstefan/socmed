@@ -17,6 +17,7 @@ class CreateStatusesTable extends Migration
             $table->increments('id');
             $table->integer('poster')->unsigned();
             $table->text('content');
+            $table->string('type')->default('text');
             $table->timestamps();
 
             $table->foreign('poster')->references('id')->on('users')->onDelete('cascade');

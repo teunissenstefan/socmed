@@ -103,6 +103,34 @@ class StatusController extends Controller
         }
     }
 
+    public function storeimage(Request $request)
+    {
+        $rules = array(
+            'user_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048000'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process
+        if ($validator->fails()) {
+            return Redirect::to('/')
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            $photoName = time().'.'.$request->user_photo->getClientOriginalExtension();
+            $request->user_photo->move(public_path('images'), $photoName);
+            // store
+            $status = new Status;
+            $status->content       = $photoName;
+            $status->poster       = Auth::user()->id;
+            $status->type       = 'image';
+            $status->save();
+
+            // redirect
+            Session::flash('status', 'Image posted!');
+            return Redirect::to('/');
+        }
+    }
+
     /**
      * Display the specified resource.
      *
