@@ -99,7 +99,7 @@ class StatusController extends Controller
 
             // redirect
             Session::flash('status', 'Status posted!');
-            return Redirect::to('/');
+            return Redirect::to('/status/'.$status->id);
         }
     }
 
@@ -116,7 +116,7 @@ class StatusController extends Controller
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
-            $photoName = time().'.'.$request->user_photo->getClientOriginalExtension();
+            $photoName = Auth::user()->id.time().'.'.$request->user_photo->getClientOriginalExtension();
             $request->user_photo->move(public_path('images'), $photoName);
             // store
             $status = new Status;
@@ -127,7 +127,35 @@ class StatusController extends Controller
 
             // redirect
             Session::flash('status', 'Image posted!');
-            return Redirect::to('/');
+            return Redirect::to('/status/'.$status->id);
+        }
+    }
+
+    public function storevideo(Request $request)
+    {
+        $rules = array(
+            'user_video' => 'required|mimetypes:video/webm,video/ogg,video/mp4|max:2048000'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process
+        if ($validator->fails()) {
+            return Redirect::to('/')
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            $videoName = Auth::user()->id.time().'.'.$request->user_video->getClientOriginalExtension();
+            $request->user_video->move(public_path('videos'), $videoName);
+            // store
+            $status = new Status;
+            $status->content       = $videoName;
+            $status->poster       = Auth::user()->id;
+            $status->type       = 'video';
+            $status->save();
+
+            // redirect
+            Session::flash('status', 'Video posted!');
+            return Redirect::to('/status/'.$status->id);
         }
     }
 

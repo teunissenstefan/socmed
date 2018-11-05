@@ -13,6 +13,11 @@
 
         @if($status->type=='image')
             <a href="{{url('images').'/'.$status->content}}" data-toggle="lightbox"><img src="{{url('images').'/'.$status->content}}" class="col-12"/></a>
+        @elseif($status->type=='video')
+            <video class="col-12" controls>
+                <source src="{{url('videos').'/'.$status->content}}">
+                It doesn't seem like your browser supports HTML5 video in webm, mp4, or ogg format.
+            </video>
         @else
             {!! nl2br(e($status->content)) !!}
         @endif

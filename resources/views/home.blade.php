@@ -51,7 +51,21 @@
                         </div>
                     </div>
                     <div id="tabs-3">
-                        Video uploaden
+                        Select a video
+                        <div class="card-body">
+                            {{ Html::ul($errors->all()) }}
+
+                            {{ Form::open(['route' => 'submitvideo', 'files' => true]) }}
+
+                            <div class="form-group">
+                                {{Form::label('user_video', 'Video',['class' => 'control-label'])}}
+                                {{Form::file('user_video')}}
+                            </div>
+
+                            {{ Form::submit('Submit video', array('class' => 'btn btn-primary')) }}
+
+                            {{ Form::close() }}
+                        </div>
                     </div>
                 </div>
 
