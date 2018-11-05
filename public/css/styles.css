@@ -1,3 +1,12 @@
 .comment > p{
     margin:0;
 }
+.card-body-profile{
+    padding:0;
+}
+.card-body-profile > #tabs{
+    border:0px solid transparent;
+}
+.card-body-profile > #tabs > #tabs-2{
+     padding:0;
+ }

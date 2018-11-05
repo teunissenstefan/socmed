@@ -25,9 +25,28 @@
                         @endif
                     @endif
                 </div>
-                <div class="card-body">
-                    Gender: {{$user->sex->gender}}<br/>
-                    Birthdate: {{$user->birthdate}}
+                <div class="card-body card-body-profile">
+                    <div id="tabs">
+                        <ul>
+                            <li><a href="#tabs-1">Info</a></li>
+                            @if($repositories)
+                                <li><a href="#tabs-2">Repositories</a></li>
+                            @endif
+                        </ul>
+                        <div id="tabs-1">
+                            Gender: {{$user->sex->gender}}<br/>
+                            Birthdate: {{$user->birthdate}}
+                        </div>
+                        @if($repositories)
+                            <div id="tabs-2">
+                                <ul class="list-group">
+                                    @foreach($repositories as $repo)
+                                        <a href="{{$repo['html_url']}}" target="_blank"><li class="list-group-item">{{$repo['name']}}</li></a>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
 
@@ -37,6 +56,10 @@
     </div>
 </div>
 <script>
+    $( function() {
+        $( "#tabs" ).tabs();
+    } );
+
     $.ajax({
         url: "{{route('getstatusesprofile', ['id' => $user->id,'start' => 0])}}",
         cache: false,

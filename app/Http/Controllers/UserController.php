@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Status;
 use App\User;
+use GuzzleHttp;
 use App\Gender;
 use Validator;
 use Input;
@@ -39,6 +40,7 @@ class UserController extends Controller
             $rules = array(
                 'name' => 'required|string|max:255',
                 'lastname' => 'required|string|max:255',
+                'github_username' => 'max:255',
                 'birthdate' => 'required|date|date_format:Y-m-d',
                 'gender' => 'required|integer',
                 'email' => 'required|string|email|max:255|unique:users,email,' . $id . ',id'
@@ -56,6 +58,7 @@ class UserController extends Controller
                 $user->lastname = Input::get('lastname');
                 $user->birthdate = Input::get('birthdate');
                 $user->gender = Input::get('gender');
+                $user->github_username = Input::get('github_username');
                 $user->email = Input::get('email');
                 $user->save();
 
@@ -86,6 +89,14 @@ class UserController extends Controller
     public function show(Request $request, $id)
     {
         $user = User::find($id);
+        try{
+            $client = new GuzzleHttp\Client();
+            $res = $client->get('https://api.github.com/users/'.$user->github_username.'/repos');
+            $repositories = json_decode($res->getBody(),true);
+        } catch (GuzzleHttp\Exception\ClientException $exception) {
+            $repositories = "";
+        }
+
         if($user->friends->contains('id',Auth::user()->id)){
             $friendStatus = "unfriend";
         }else if($user->pendingFriendRequests->contains('id',Auth::user()->id)){
@@ -100,7 +111,8 @@ class UserController extends Controller
         }
         $data = [
             'user' => $user,
-            'friendStatus' => $friendStatus
+            'friendStatus' => $friendStatus,
+            'repositories' => $repositories
         ];
         return view('users.profile')->with($data);
     }

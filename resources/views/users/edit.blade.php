@@ -78,6 +78,20 @@
                             </div>
 
                             <div class="form-group row">
+                                <label for="github_username" class="col-md-4 col-form-label text-md-right">{{ __('GitHub Username') }}</label>
+
+                                <div class="col-md-6">
+                                    {{ Form::text('github_username', null, array('class' => 'form-control '.($errors->has('github_username') ? ' is-invalid' : ''))) }}
+
+                                    @if ($errors->has('github_username'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('github_username') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
                                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                                 <div class="col-md-6">
