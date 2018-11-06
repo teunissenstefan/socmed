@@ -34,12 +34,16 @@
                         </div>
                     </div>
                     <div id="tabs-2">
-                        Select an image
+                        Submit an image
                         <div class="card-body">
                             {{ Html::ul($errors->all()) }}
 
                             {{ Form::open(['route' => 'submitimage', 'files' => true]) }}
 
+                            <div class="form-group">
+                                {{Form::label('subtitle', 'Subtitle',['class' => 'control-label'])}}
+                                {{ Form::textarea('subtitle', Input::old('subtitle'), array('class' => 'form-control', 'rows' => 2)) }}
+                            </div>
                             <div class="form-group">
                                 {{Form::label('user_photo', 'Image',['class' => 'control-label'])}}
                                 {{Form::file('user_photo')}}
@@ -51,12 +55,16 @@
                         </div>
                     </div>
                     <div id="tabs-3">
-                        Select a video
+                        Submit a video
                         <div class="card-body">
                             {{ Html::ul($errors->all()) }}
 
                             {{ Form::open(['route' => 'submitvideo', 'files' => true]) }}
 
+                            <div class="form-group">
+                                {{Form::label('subtitle', 'Subtitle',['class' => 'control-label'])}}
+                                {{ Form::textarea('subtitle', Input::old('subtitle'), array('class' => 'form-control', 'rows' => 2)) }}
+                            </div>
                             <div class="form-group">
                                 {{Form::label('user_video', 'Video',['class' => 'control-label'])}}
                                 {{Form::file('user_video')}}

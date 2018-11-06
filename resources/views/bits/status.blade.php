@@ -12,8 +12,14 @@
     <div class="card-body">
 
         @if($status->type=='image')
+            @if($status->subtitle)
+                {!! nl2br(e($status->subtitle)) !!}
+            @endif
             <a href="{{url('images').'/'.$status->content}}" data-toggle="lightbox"><img src="{{url('images').'/'.$status->content}}" class="col-12"/></a>
         @elseif($status->type=='video')
+            @if($status->subtitle)
+                {!! nl2br(e($status->subtitle)) !!}
+            @endif
             <video class="col-12" controls>
                 <source src="{{url('videos').'/'.$status->content}}">
                 It doesn't seem like your browser supports HTML5 video in webm, mp4, or ogg format.

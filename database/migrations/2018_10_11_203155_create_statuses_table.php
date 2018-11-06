@@ -17,6 +17,7 @@ class CreateStatusesTable extends Migration
             $table->increments('id');
             $table->integer('poster')->unsigned();
             $table->text('content');
+            $table->text('subtitle')->nullable();
             $table->string('type')->default('text');
             $table->timestamps();
 

@@ -106,7 +106,7 @@ class StatusController extends Controller
     public function storeimage(Request $request)
     {
         $rules = array(
-            'user_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048000'
+            'user_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:50000'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -123,6 +123,7 @@ class StatusController extends Controller
             $status->content       = $photoName;
             $status->poster       = Auth::user()->id;
             $status->type       = 'image';
+            $status->subtitle       = $request->subtitle;
             $status->save();
 
             // redirect
@@ -134,7 +135,7 @@ class StatusController extends Controller
     public function storevideo(Request $request)
     {
         $rules = array(
-            'user_video' => 'required|mimetypes:video/webm,video/ogg,video/mp4|max:2048000'
+            'user_video' => 'required|mimetypes:video/webm,video/ogg,video/mp4|max:50000'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -151,6 +152,7 @@ class StatusController extends Controller
             $status->content       = $videoName;
             $status->poster       = Auth::user()->id;
             $status->type       = 'video';
+            $status->subtitle       = $request->subtitle;
             $status->save();
 
             // redirect
