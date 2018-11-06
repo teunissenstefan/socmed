@@ -112,7 +112,7 @@ class StatusController extends Controller
 
         // process
         if ($validator->fails()) {
-            return Redirect::to('/')
+            return Redirect::to('/#tabs-2')
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
@@ -141,7 +141,7 @@ class StatusController extends Controller
 
         // process
         if ($validator->fails()) {
-            return Redirect::to('/')
+            return Redirect::to('/#tabs-3')
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {

@@ -87,6 +87,14 @@
 <script>
     $( function() {
         $( "#tabs" ).tabs();
+        var url = window.location.href, idx = url.indexOf("#")
+        var hash = idx != -1 ? url.substring(idx+1) : "";
+        if(hash!=""){
+            var index = $('#'+hash).index()-1;
+            $("#tabs").tabs("option", "active", index);
+            //$('#tabs').tabs('select', "#"+hash);
+        }
+
     } );
 
     $.ajax({
