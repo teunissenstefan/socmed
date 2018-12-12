@@ -14,8 +14,8 @@ class CreateGendersTable extends Migration
     public function up()
     {
         Schema::create('genders', function (Blueprint $table) {
-            $table->tinyInteger('id')->unsigned()->unique();
-            $table->string('gender',10)->unique();
+            $table->increments('id');
+            $table->string('gender',100)->unique();
         });
 
         DB::table('genders')->insert(array('id' => '1','gender' => 'Male'));

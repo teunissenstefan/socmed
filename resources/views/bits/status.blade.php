@@ -36,7 +36,7 @@
             {{ Form::open(array('url' => '/comments/submit')) }}
 
             <div class="row">
-                {{ Form::textarea('comment', Input::old('comment'), array('class' => 'form-control col-md-10', 'rows' => 1)) }}
+                {{ Form::text('comment', Input::old('comment'), array('class' => 'form-control col-md-10')) }}
                 {{ Form::hidden('status', $status->id) }}
                 {{ Form::submit('Submit', array('class' => 'btn btn-primary col-md-2')) }}
             </div>

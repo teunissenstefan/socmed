@@ -35,7 +35,7 @@
                         </ul>
                         <div id="tabs-1">
                             Gender: {{$user->sex->gender}}<br/>
-                            Birthdate: {{$user->birthdate}}
+                            Age: {{$user::age($user->birthdate)}}
                         </div>
                         @if($repositories)
                             <div id="tabs-2">
