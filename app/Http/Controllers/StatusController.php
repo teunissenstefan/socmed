@@ -45,21 +45,27 @@ class StatusController extends Controller
 
         $friends = Auth::user()->friends;
         if(count($friends)==0){
-            $statuses = Status::orderBy('created_at','desc')->limit($incr)->offset($offset)->get();
+            $statuses = Status::orderBy('created_at','desc')->where('public', 1)->orWhere('poster', Auth::user()->id)->limit($incr)->offset($offset)->get();
             return view('bits.getstatuses')->with('statuses',$statuses);
         }
         $combinedCollection = Status::select('*')
             ->whereIn('poster', function($query){
                 $query->select('friend_id')
                     ->from('friends')
-                    ->where('user_id','=',Auth::user()->id)
-                    ->orWhere('friend_id','=',Auth::user()->id);
+                    ->where('accepted',1)
+                    ->where(function($q) {
+                        $q->where('user_id','=',Auth::user()->id)
+                            ->orWhere('friend_id','=',Auth::user()->id);
+                    });
             })
             ->orWhereIn('poster', function($query){
                 $query->select('user_id')
                     ->from('friends')
-                    ->where('user_id','=',Auth::user()->id)
-                    ->orWhere('friend_id','=',Auth::user()->id);
+                    ->where('accepted',1)
+                    ->where(function($q) {
+                        $q->where('user_id','=',Auth::user()->id)
+                            ->orWhere('friend_id','=',Auth::user()->id);
+                    });
             })->orderBy('created_at','desc')->limit($incr)->offset($offset)->get();
         return view('bits.getstatuses')->with('statuses',$combinedCollection);
     }
@@ -67,7 +73,34 @@ class StatusController extends Controller
     public function getstatusesprofile($id,$start){
         $incr = 5;
         $offset = ($start * $incr);
-        $statuses = Status::where('poster','=',$id)->orderBy('created_at','desc')->limit($incr)->offset($offset)->get();
+        if($id==Auth::user()->id) {
+            $statuses = Status::where('poster','=',$id)->orderBy('created_at','desc')->limit($incr)->offset($offset)->get();
+        }else{
+            $statuses = Status::where('poster','=',$id)
+                ->where(function($q) {
+                    $q->where('public', 1)
+                        ->orWhere(function($q) {
+                            $q->whereIn('poster', function($query){
+                                $query->select('friend_id')
+                                    ->from('friends')
+                                    ->where('accepted',1)
+                                    ->where(function($q) {
+                                        $q->where('user_id','=',Auth::user()->id)
+                                            ->orWhere('friend_id','=',Auth::user()->id);
+                                    });
+                            })->orWhereIn('poster', function($query){
+                                    $query->select('user_id')
+                                        ->from('friends')
+                                        ->where('accepted',1)
+                                        ->where(function($q) {
+                                            $q->where('user_id','=',Auth::user()->id)
+                                                ->orWhere('friend_id','=',Auth::user()->id);
+                                        });
+                                });
+                        });
+                })
+                ->orderBy('created_at','desc')->limit($incr)->offset($offset)->get();
+        }
 //        return $statuses;
         return view('bits.getstatuses')->with('statuses',$statuses);
     }
