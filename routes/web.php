@@ -30,6 +30,8 @@ Route::post('/submitimage', 'StatusController@storeimage')->name('submitimage');
 Route::post('/submitvideo', 'StatusController@storevideo')->name('submitvideo');
 Route::get('/status/{id}', 'StatusController@show')->name('status');
 Route::delete('/status/{id}', 'StatusController@destroy')->name('delstatus');
+Route::get('/status/{id}/edit', 'StatusController@edit')->name('editstatus');
+Route::put('/status/{id}/edit', 'StatusController@update')->name('statusupdate');
 Route::get('/status/start/{start}', 'StatusController@getstatuseshome')->name('getstatuseshome');
 Route::get('/status/user/{id}/start/{start}', 'StatusController@getstatusesprofile')->name('getstatusesprofile');
 

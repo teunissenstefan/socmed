@@ -16,7 +16,7 @@ class CreateStatusesTable extends Migration
         Schema::create('statuses', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('poster')->unsigned();
-            $table->text('content');
+            $table->text('content')->nullable();
             $table->text('subtitle')->nullable();
             $table->boolean('public')->default(1);
             $table->string('type')->default('text');

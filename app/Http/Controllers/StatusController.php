@@ -126,7 +126,7 @@ class StatusController extends Controller
         } else {
             // store
             $status = new Status;
-            $status->content       = Input::get('status');
+            $status->subtitle       = Input::get('status');
             $status->poster       = Auth::user()->id;
             $status->save();
 
@@ -219,9 +219,20 @@ class StatusController extends Controller
      * @param  \App\Status  $status
      * @return \Illuminate\Http\Response
      */
-    public function edit(Status $status)
+    public function edit($id)
     {
-        //
+        $status = Status::find($id);
+
+        if ($status === null) {
+            abort(404);
+        }
+        if(Auth::user()->id!=$status->poster) {
+            return Redirect::to('status/' . $id);
+        }
+        $data = [
+            'status' => $status
+        ];
+        return view('editstatus')->with($data);
     }
 
     /**
@@ -231,9 +242,28 @@ class StatusController extends Controller
      * @param  \App\Status  $status
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Status $status)
+    public function update($id)
     {
-        //
+        $status = Status::find($id);
+
+        if ($status === null) {
+            abort(404);
+        }
+        if(Auth::user()->id!=$status->poster) {
+            return Redirect::to('status/' . $id);
+        }
+        $status = Status::find($id);
+        $public = 0;
+        if(Input::get('public')){
+            $public = 1;
+        }
+        $status->subtitle = Input::get('subtitle');
+        $status->public = $public;
+        $status->save();
+
+        // redirect
+        Session::flash('status', 'Successfully updated status!');
+        return Redirect::to('status/' . $id);
     }
 
     /**

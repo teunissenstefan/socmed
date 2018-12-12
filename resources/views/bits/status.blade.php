@@ -6,6 +6,7 @@
         <a href="{{route('status', ['id' => $status->id])}}">{{$status->created_at->format('d/m/Y')}} at {{$status->created_at->format('H:i')}}</a>
         @if(Auth::user()->id==$status->user->id)
             <a href="#" data-href="{{route('delstatus', $status->id)}}" data-toggle="modal" data-target="#confirm-delete" class="btn btn-secondary btn-sm float-right">Delete</a>
+            <a href="{{route('editstatus', ['id' => $status->id])}}" data-href="{{route('delstatus', $status->id)}}"  class="btn btn-primary btn-sm float-right mr-1">Edit</a>
         @endif
     </div>
 
@@ -25,7 +26,7 @@
                 It doesn't seem like your browser supports HTML5 video in webm, mp4, or ogg format.
             </video>
         @else
-            {!! nl2br(e($status->content)) !!}
+            {!! nl2br(e($status->subtitle)) !!}
         @endif
     </div>
     <ul class="list-group list-group-flush" id="comments{{$status->id}}">
