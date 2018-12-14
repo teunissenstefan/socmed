@@ -27,8 +27,9 @@ Route::get('/stillonline', 'UserController@stillonline')->name('stillonline');
 
 //Messages routes
 Route::get('/messages','MessageController@index')->name('messages.index');
-Route::get('/messages/new','MessageController@new')->name('messages.new');
-Route::get('/messages/{id}','MessageController@show')->name('messages.show');
+Route::get('/messages/new/{userid}','MessageController@create')->name('messages.new');
+Route::post('/messages/new/{userid}','MessageController@store');
+Route::get('/messages/{messageid}','MessageController@show')->name('messages.show');
 Route::get('/messages/{id}/delete','MessageController@delete')->name('messages.delete');
 
 //Status routes
