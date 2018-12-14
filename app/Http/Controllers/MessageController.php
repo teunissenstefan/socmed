@@ -50,6 +50,18 @@ class MessageController extends Controller
         return view('messages.create')->with($data);
     }
 
+    public function reply($messageid)
+    {
+        $message = Message::find($messageid);
+        if($message===null||$message->sender->id==Auth::user()->id){
+            abort(404);
+        }
+        $data = [
+            'message' => $message
+        ];
+        return view('messages.reply')->with($data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -66,7 +78,7 @@ class MessageController extends Controller
 
         // process
         if ($validator->fails()) {
-            return Redirect::to('/')
+            return Redirect::to('/messages/new/'.$userid)
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
@@ -140,8 +152,18 @@ class MessageController extends Controller
      * @param  \App\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Message $message)
+    public function delete($id)
     {
-        //
+        $message = Message::find($id);
+        if(Auth::user()->id==$message->receiver->id){
+            $message->delete();
+
+            // redirect
+            Session::flash('status', 'Successfully deleted the message!');
+            return Redirect::to('/messages/');
+        }else{
+            Session::flash('status', 'Could not delete the message!');
+            return Redirect::to('/messages/'.$id);
+        }
     }
 }
