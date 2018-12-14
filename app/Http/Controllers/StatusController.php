@@ -202,7 +202,30 @@ class StatusController extends Controller
      */
     public function show($id)
     {
-        $status = Status::find($id);
+        $status = Status::where('id',$id)->
+            where(function($q) {
+                $q->where('public', 1)
+                ->orWhere('poster',Auth::user()->id)
+                ->orWhere(function($q) {
+                    $q->whereIn('poster', function($query){
+                        $query->select('friend_id')
+                            ->from('friends')
+                            ->where('accepted',1)
+                            ->where(function($q) {
+                                $q->where('user_id','=',Auth::user()->id)
+                                    ->orWhere('friend_id','=',Auth::user()->id);
+                            });
+                    })->orWhereIn('poster', function($query){
+                        $query->select('user_id')
+                            ->from('friends')
+                            ->where('accepted',1)
+                            ->where(function($q) {
+                                $q->where('user_id','=',Auth::user()->id)
+                                    ->orWhere('friend_id','=',Auth::user()->id);
+                            });
+                    });
+                });
+            })->first();
 
         if ($status === null) {
             abort(404);

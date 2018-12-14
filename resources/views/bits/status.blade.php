@@ -11,7 +11,6 @@
     </div>
 
     <div class="card-body">
-
         @if($status->type=='image')
             @if($status->subtitle)
                 {!! nl2br(e($status->subtitle)) !!}
