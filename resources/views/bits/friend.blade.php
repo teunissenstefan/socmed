@@ -7,6 +7,6 @@
             <a href="{{route('friends.accept', $user->id)}}" class="btn btn-primary btn-sm float-right">Accept friend request</a>
         @endif
     @else
-        <a  href="#" data-href="{{route('friends.unfriend', $user->id)}}" data-toggle="modal" data-target="#confirm-delete" class="btn btn-secondary btn-sm float-right">Unfriend</a>
+        <a  href="#" data-href="{{route('friends.unfriend', $user->id)}}" data-toggle="modal" data-target="#confirm-unfriend" class="btn btn-secondary btn-sm float-right">Unfriend</a>
     @endif
 </li>

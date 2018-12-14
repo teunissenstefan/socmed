@@ -128,6 +128,32 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="confirm-unfriend" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm unfriend</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>You are about to unfriend this person.</p>
+                    <p>Do you want to proceed?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    {{ Form::open(array('url' => '/', 'class' => 'pull-right unfriendform')) }}
+                    {{ Form::hidden('_method', 'DELETE') }}
+                    {{ Form::submit('Unfriend', array('class' => 'btn btn-danger btn-ok')) }}
+                    {{ Form::close() }}
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         $(document).on('click', '[data-toggle="lightbox"]', function(event) {
             event.preventDefault();
@@ -135,6 +161,9 @@
         });
         $('#confirm-delete').on('show.bs.modal', function(e) {
             $(this).find('.delform').attr('action', $(e.relatedTarget).data('href'));
+        });
+        $('#confirm-unfriend').on('show.bs.modal', function(e) {
+            $(this).find('.unfriendform').attr('action', $(e.relatedTarget).data('href'));
         });
     </script>
 </body>

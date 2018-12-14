@@ -15,7 +15,7 @@
                         <a href="{{route('profileedit', $user->id)}}" class="btn btn-primary btn-sm float-right">Edit</a>
                     @else
                         @if($friendStatus=="unfriend")
-                            <a  href="#" data-href="{{route('friends.unfriend', $user->id)}}" data-toggle="modal" data-target="#confirm-delete" class="btn btn-secondary btn-sm float-right">Unfriend</a>
+                            <a  href="#" data-href="{{route('friends.unfriend', $user->id)}}" data-toggle="modal" data-target="#confirm-unfriend" class="btn btn-secondary btn-sm float-right">Unfriend</a>
                         @elseif($friendStatus=="accept")
                             <a href="{{route('friends.accept', $user->id)}}" class="btn btn-primary btn-sm float-right">Accept friend request</a>
                         @elseif($friendStatus=="cancel")
