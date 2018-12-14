@@ -8,6 +8,7 @@ use App\User;
 use Auth;
 use Illuminate\Support\Facades\Redirect;
 use Input;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -28,17 +29,21 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-//        $friends = Auth::user()->friends;
-//        if(count($friends)==0){
-//            $statuses = Status::orderBy('created_at','desc')->get();
-//            return view('home')->with('statuses',$statuses);
-//        }
-//        $combinedCollection = Auth::user()->statuses;
-//        foreach (Auth::user()->friends as $friend){
-//            $combinedCollection = $combinedCollection->merge($friend->statuses);
-//        }
-//        return view('home')->with('statuses',$combinedCollection->sortByDesc('created_at'));
-        return view('home');
+        $onlinefriends = User::where('last_online','>=',Carbon::now()->subMinutes(5)->toDateTimeString())
+            ->where(function($q) {
+                    $q->whereIn('id', function($query){
+                        $query->select('friend_id')
+                            ->from('friends')
+                            ->where('accepted',1)
+                            ->where('user_id','=',Auth::user()->id);
+                    })->orWhereIn('id', function($query){
+                        $query->select('user_id')
+                            ->from('friends')
+                            ->where('accepted',1)
+                            ->where('friend_id','=',Auth::user()->id);
+                    });
+                })->get();
+        return view('home')->with('onlinefriends',$onlinefriends);
     }
 
     public function search(Request $request, $searchQuery){

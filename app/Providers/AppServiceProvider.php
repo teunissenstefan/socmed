@@ -21,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
         {
             if(Auth::check()){
                 $user = Auth::user();
+                $user->stillonline();
                 $pendingFriendRequestsForMe = count($user->pendingFriendRequestsForMe);
                 $view->with('countFriendRequestsForMe', $pendingFriendRequestsForMe);
             }

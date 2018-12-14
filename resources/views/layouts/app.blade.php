@@ -100,6 +100,7 @@
         <main class="py-4"><br/><br/>
             @yield('content')
         </main>
+        
     </div>
 
     <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

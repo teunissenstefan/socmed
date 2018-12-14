@@ -3,84 +3,102 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8" id="statuscontainer">
-            @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
+        <div class="col-md-3">
+            <div class="card col-md-12" id="sidebar">
+                <div class="card-header">
+                    Online friends
                 </div>
-            @endif
-
-            <div class="card">
-                <div id="tabs">
-                    <ul>
-                        <li><a href="#tabs-1">Text</a></li>
-                        <li><a href="#tabs-2">Image</a></li>
-                        <li><a href="#tabs-3">Video</a></li>
-                    </ul>
-                    <div id="tabs-1">
-                        How are you feeling?
-                        <div class="card-body">
-                            {{ Html::ul($errors->all()) }}
-
-                            {{ Form::open(array('url' => '/submit')) }}
-
-                            <div class="form-group">
-                                {{ Form::textarea('status', Input::old('status'), array('class' => 'form-control', 'rows' => 2)) }}
-                            </div>
-
-                            {{ Form::submit('Submit status', array('class' => 'btn btn-primary')) }}
-
-                            {{ Form::close() }}
-                        </div>
-                    </div>
-                    <div id="tabs-2">
-                        Submit an image
-                        <div class="card-body">
-                            {{ Html::ul($errors->all()) }}
-
-                            {{ Form::open(['route' => 'submitimage', 'files' => true]) }}
-
-                            <div class="form-group">
-                                {{Form::label('subtitle', 'Subtitle',['class' => 'control-label'])}}
-                                {{ Form::textarea('subtitle', Input::old('subtitle'), array('class' => 'form-control', 'rows' => 2)) }}
-                            </div>
-                            <div class="form-group">
-                                {{Form::label('user_photo', 'Image',['class' => 'control-label'])}}
-                                {{Form::file('user_photo')}}
-                            </div>
-
-                            {{ Form::submit('Submit image', array('class' => 'btn btn-primary')) }}
-
-                            {{ Form::close() }}
-                        </div>
-                    </div>
-                    <div id="tabs-3">
-                        Submit a video
-                        <div class="card-body">
-                            {{ Html::ul($errors->all()) }}
-
-                            {{ Form::open(['route' => 'submitvideo', 'files' => true]) }}
-
-                            <div class="form-group">
-                                {{Form::label('subtitle', 'Subtitle',['class' => 'control-label'])}}
-                                {{ Form::textarea('subtitle', Input::old('subtitle'), array('class' => 'form-control', 'rows' => 2)) }}
-                            </div>
-                            <div class="form-group">
-                                {{Form::label('user_video', 'Video',['class' => 'control-label'])}}
-                                {{Form::file('user_video')}}
-                            </div>
-
-                            {{ Form::submit('Submit video', array('class' => 'btn btn-primary')) }}
-
-                            {{ Form::close() }}
-                        </div>
-                    </div>
+                <div class="card-body">
+                    @if(count($onlinefriends)>0)
+                        @foreach($onlinefriends as $user)
+                            <a href="{{route('profile', ['id' => $user->id])}}">{{$user->name}} {{$user->lastname}}</a><br/>
+                        @endforeach
+                    @else
+                        None of your friends are online
+                    @endif
                 </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="col-md-12" id="statuscontainer">
+                @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+                <div class="card">
+                    <div id="tabs">
+                        <ul>
+                            <li><a href="#tabs-1">Text</a></li>
+                            <li><a href="#tabs-2">Image</a></li>
+                            <li><a href="#tabs-3">Video</a></li>
+                        </ul>
+                        <div id="tabs-1">
+                            How are you feeling?
+                            <div class="card-body">
+                                {{ Html::ul($errors->all()) }}
+
+                                {{ Form::open(array('url' => '/submit')) }}
+
+                                <div class="form-group">
+                                    {{ Form::textarea('status', Input::old('status'), array('class' => 'form-control', 'rows' => 2)) }}
+                                </div>
+
+                                {{ Form::submit('Submit status', array('class' => 'btn btn-primary')) }}
+
+                                {{ Form::close() }}
+                            </div>
+                        </div>
+                        <div id="tabs-2">
+                            Submit an image
+                            <div class="card-body">
+                                {{ Html::ul($errors->all()) }}
+
+                                {{ Form::open(['route' => 'submitimage', 'files' => true]) }}
+
+                                <div class="form-group">
+                                    {{Form::label('subtitle', 'Subtitle',['class' => 'control-label'])}}
+                                    {{ Form::textarea('subtitle', Input::old('subtitle'), array('class' => 'form-control', 'rows' => 2)) }}
+                                </div>
+                                <div class="form-group">
+                                    {{Form::label('user_photo', 'Image',['class' => 'control-label'])}}
+                                    {{Form::file('user_photo')}}
+                                </div>
+
+                                {{ Form::submit('Submit image', array('class' => 'btn btn-primary')) }}
+
+                                {{ Form::close() }}
+                            </div>
+                        </div>
+                        <div id="tabs-3">
+                            Submit a video
+                            <div class="card-body">
+                                {{ Html::ul($errors->all()) }}
+
+                                {{ Form::open(['route' => 'submitvideo', 'files' => true]) }}
+
+                                <div class="form-group">
+                                    {{Form::label('subtitle', 'Subtitle',['class' => 'control-label'])}}
+                                    {{ Form::textarea('subtitle', Input::old('subtitle'), array('class' => 'form-control', 'rows' => 2)) }}
+                                </div>
+                                <div class="form-group">
+                                    {{Form::label('user_video', 'Video',['class' => 'control-label'])}}
+                                    {{Form::file('user_video')}}
+                                </div>
+
+                                {{ Form::submit('Submit video', array('class' => 'btn btn-primary')) }}
+
+                                {{ Form::close() }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
 
             </div>
-
-
-
         </div>
     </div>
 </div>
@@ -126,5 +144,9 @@
             }
         }
     }, true);
+    var stillonline = setInterval(function () {
+        $.get("{{route('stillonline')}}");
+
+    }, 60000);
 </script>
 @endsection

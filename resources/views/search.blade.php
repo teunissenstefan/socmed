@@ -15,9 +15,13 @@
                     <div class="card-body">
 
                         <ul class="list-group list-group-flush">
-                            @foreach($users as $user)
-                                @include('bits.user')
-                            @endforeach
+                            @if(count($users)>0)
+                                @foreach($users as $user)
+                                    @include('bits.user')
+                                @endforeach
+                            @else
+                                No people found
+                            @endif
                         </ul>
                     </div>
                 </div>

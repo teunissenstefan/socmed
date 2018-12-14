@@ -34,6 +34,10 @@ class UserController extends Controller
 
     }
 
+    public function stillonline(Request $request){
+        Auth::user()->stillonline();
+    }
+
     public function update($id)
     {
         if(Auth::user()->id==$id) {

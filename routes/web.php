@@ -23,6 +23,7 @@ Route::post('/searchprocess', 'HomeController@processSearchForm')->name('process
 Route::get('/profile/{id}', 'UserController@show')->name('profile');
 Route::get('/profile/{id}/edit', 'UserController@edit')->name('profileedit');
 Route::put('/profile/{id}', 'UserController@update')->name('profileupdate');
+Route::get('/stillonline', 'UserController@stillonline')->name('stillonline');
 
 //Status routes
 Route::post('/submit', 'StatusController@store');

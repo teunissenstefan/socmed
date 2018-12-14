@@ -15,15 +15,19 @@
                     <div class="card-body">
 
                         <ul class="list-group list-group-flush">
-                            @foreach($pendingFriendRequestsForMe as $user)
-                                @include('bits.friend')
-                            @endforeach
-                            @foreach($pendingFriendRequests as $user)
-                                @include('bits.friend')
-                            @endforeach
-                            @foreach($actualFriends as $user)
-                                @include('bits.friend')
-                            @endforeach
+                            @if(count($pendingFriendRequestsForMe)==0&&count($pendingFriendRequests)==0&&count($actualFriends)==0)
+                                You've got no friends :(
+                            @else
+                                @foreach($pendingFriendRequestsForMe as $user)
+                                    @include('bits.friend')
+                                @endforeach
+                                @foreach($pendingFriendRequests as $user)
+                                    @include('bits.friend')
+                                @endforeach
+                                @foreach($actualFriends as $user)
+                                    @include('bits.friend')
+                                @endforeach
+                            @endif
                         </ul>
                     </div>
                 </div>

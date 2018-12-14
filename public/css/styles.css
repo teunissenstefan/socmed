@@ -10,3 +10,6 @@
 .card-body-profile > #tabs > #tabs-2{
      padding:0;
  }
+.card{
+    padding:0!important;
+}
