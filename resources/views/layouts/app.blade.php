@@ -65,10 +65,17 @@
                             </li>
                         @else
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('messages.index') }}">{{ __('Messages') }}
+                                    @if($countMessagesForMe)
+                                        <span class="badge badge-primary">{{$countMessagesForMe}}</span>
+                                    @endif
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('friends.show') }}">{{ __('Friends') }}
-                                @if($countFriendRequestsForMe)
+                                    @if($countFriendRequestsForMe)
                                         <span class="badge badge-primary">{{$countFriendRequestsForMe}}</span>
-                                @endif
+                                    @endif
                                 </a>
                             </li>
                             <li class="nav-item dropdown">
@@ -100,7 +107,7 @@
         <main class="py-4"><br/><br/>
             @yield('content')
         </main>
-        
+
     </div>
 
     <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

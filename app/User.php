@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -50,6 +51,11 @@ class User extends Authenticatable
             ? ((date("Y") - $birthDate[0]) - 1)
             : (date("Y") - $birthDate[0]));
         return $age;
+    }
+
+    public function unreadMessages()
+    {
+        return Message::where('send_to',Auth::user()->id)->where('read',0)->get();
     }
 
     function pendingFriendRequests()

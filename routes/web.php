@@ -25,6 +25,12 @@ Route::get('/profile/{id}/edit', 'UserController@edit')->name('profileedit');
 Route::put('/profile/{id}', 'UserController@update')->name('profileupdate');
 Route::get('/stillonline', 'UserController@stillonline')->name('stillonline');
 
+//Messages routes
+Route::get('/messages','MessageController@index')->name('messages.index');
+Route::get('/messages/new','MessageController@new')->name('messages.new');
+Route::get('/messages/{id}','MessageController@show')->name('messages.show');
+Route::get('/messages/{id}/delete','MessageController@delete')->name('messages.delete');
+
 //Status routes
 Route::post('/submit', 'StatusController@store');
 Route::post('/submitimage', 'StatusController@storeimage')->name('submitimage');

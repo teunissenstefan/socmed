@@ -24,6 +24,7 @@
                             <a href="{{route('friends.add', $user->id)}}" class="btn btn-primary btn-sm float-right">Send friend request</a>
                         @endif
                     @endif
+                    <a href="{{route('messages.new')}}" class="btn btn-primary btn-sm float-right mr-1">Message</a>
                 </div>
                 <div class="card-body card-body-profile">
                     <div id="tabs">

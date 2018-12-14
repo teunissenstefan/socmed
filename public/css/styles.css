@@ -1,15 +1,18 @@
 .comment > p{
     margin:0;
 }
-.card-body-profile{
+.card-body-profile,.card-body-msg{
     padding:0;
 }
-.card-body-profile > #tabs{
+.card-body-profile > #tabs,.card-body-msg > #tabs{
     border:0px solid transparent;
 }
-.card-body-profile > #tabs > #tabs-2{
+.card-body-profile > #tabs > #tabs-2,.card-body-profile > #tabs > div{
      padding:0;
  }
 .card{
     padding:0!important;
+}
+.unread-msg{
+    font-weight:bold;
 }
