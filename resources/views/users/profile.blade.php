@@ -30,16 +30,28 @@
                     <div id="tabs">
                         <ul>
                             <li><a href="#tabs-1">Info</a></li>
+                            <li><a href="#tabs-2">Friends</a></li>
                             @if($repositories)
-                                <li><a href="#tabs-2">Repositories</a></li>
+                                <li><a href="#tabs-3">Repositories</a></li>
                             @endif
                         </ul>
                         <div id="tabs-1">
                             Gender: {{$user->sex->gender}}<br/>
                             Age: {{$user::age($user->birthdate)}}
                         </div>
+                        <div id="tabs-2">
+                            @if(count($user->friends)>0)
+                                <ul class="list-group">
+                                    @foreach($user->friends as $friend)
+                                        <a href="{{route('profile', ['id' => $friend->id])}}"><li class="list-group-item">{{$friend->name}} {{$friend->lastname}}</li></a>
+                                    @endforeach
+                                </ul>
+                            @else
+                                This user has no friends yet :(
+                            @endif
+                        </div>
                         @if($repositories)
-                            <div id="tabs-2">
+                            <div id="tabs-3">
                                 <ul class="list-group">
                                     @foreach($repositories as $repo)
                                         <a href="{{$repo['html_url']}}" target="_blank"><li class="list-group-item">{{$repo['name']}}</li></a>
