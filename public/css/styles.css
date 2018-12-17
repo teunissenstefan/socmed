@@ -16,3 +16,7 @@
 .unread-msg{
     font-weight:bold;
 }
+.sticky-offset {
+    /*top: 56px;*/
+    top:70px;
+}

@@ -46,21 +46,14 @@ class CommentController extends Controller
         $validator = Validator::make(Input::all(), $rules);
 
         // process
-        if ($validator->fails()) {
-            return Redirect::to('/status/'.Input::get('status'))
-                ->withErrors($validator)
-                ->withInput(Input::except('password'));
-        } else {
+        if (!$validator->fails()) {
             // store
             $comment = new Comment;
             $comment->content       = Input::get('comment');
             $comment->poster       = Auth::user()->id;
             $comment->status       = Input::get('status');
             $comment->save();
-
-            // redirect
-            Session::flash('status', 'Comment posted!');
-            return Redirect::to('/status/'.Input::get('status'));
+            return view('bits.comment')->with('comment',$comment);
         }
     }
 
@@ -140,11 +133,11 @@ class CommentController extends Controller
             $comment->delete();
 
             // redirect
-            Session::flash('status', 'Successfully deleted the comment!');
-            return Redirect::to('/status/'.$post);
+            //Session::flash('status', 'Successfully deleted the comment!');
+            //return Redirect::to('/status/'.$post);
         }else{
-            Session::flash('status', 'Could not delete the comment!');
-            return Redirect::to('/status/'.$post);
+            //Session::flash('status', 'Could not delete the comment!');
+            //return Redirect::to('/status/'.$post);
         }
 
     }

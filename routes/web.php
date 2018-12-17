@@ -45,8 +45,9 @@ Route::get('/status/start/{start}', 'StatusController@getstatuseshome')->name('g
 Route::get('/status/user/{id}/start/{start}', 'StatusController@getstatusesprofile')->name('getstatusesprofile');
 
 //Comments routes
-Route::post('/comments/submit', 'CommentController@store');
-Route::delete('/comments/{id}', 'CommentController@destroy')->name('delcomment');
+Route::post('/comments/submit', 'CommentController@store')->name('submitcomment');
+//Route::delete('/comments/{id}', 'CommentController@destroy')->name('delcomment');
+Route::get('/comments/{id}', 'CommentController@destroy')->name('delcomment');
 Route::get('/comments/post/{id}/start/{start}', 'CommentController@getcomments')->name('getcomments');
 
 //Friendships routes

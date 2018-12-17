@@ -32,7 +32,7 @@
         <li class="list-group-item">
             {{ Html::ul($errors->all()) }}
 
-            {{ Form::open(array('url' => '/comments/submit')) }}
+            {{ Form::open(array('url' => '/comments/submit', 'onsubmit' => 'PostComment($(this),'.$status->id.',"'.route('submitcomment').'");return false;')) }}
 
             <div class="row">
                 {{ Form::text('comment', Input::old('comment'), array('class' => 'form-control col-md-10')) }}

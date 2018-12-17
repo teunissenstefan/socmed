@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-3">
-            <div class="card col-md-12" id="sidebar">
+            <div class="card col-md-12 sticky-top sticky-offset" id="sidebar">
                 <div class="card-header">
                     Online friends
                 </div>
@@ -27,7 +27,7 @@
                     </div>
                 @endif
 
-                <div class="card">
+                <div class="card" id="postStatusCard" style="display:none;">
                     <div id="tabs">
                         <ul>
                             <li><a href="#tabs-1">Text</a></li>
@@ -112,16 +112,15 @@
             $("#tabs").tabs("option", "active", index);
             //$('#tabs').tabs('select', "#"+hash);
         }
-
+        $('#postStatusCard').css('display', 'block');
+        $.ajax({
+            url: "{{route('getstatuseshome', ['start' => 0])}}",
+            cache: false,
+            success: function(html){
+                $("#statuscontainer").append(html);
+            }
+        });
     } );
-
-    $.ajax({
-        url: "{{route('getstatuseshome', ['start' => 0])}}",
-        cache: false,
-        success: function(html){
-            $("#statuscontainer").append(html);
-        }
-    });
 
     var processing = false;
     var start = 1;

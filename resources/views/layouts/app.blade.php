@@ -136,6 +136,29 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="confirm-delete-comment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete comment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>You are about to delete one comment, this procedure is irreversible.</p>
+                    <p>Do you want to proceed?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" id="deleteCommentButton" class="btn btn-danger pull-right">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="confirm-unfriend" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -170,6 +193,38 @@
         $('#confirm-delete').on('show.bs.modal', function(e) {
             $(this).find('.delform').attr('action', $(e.relatedTarget).data('href'));
         });
+
+
+        function PostComment(formelement,statusid,sendurl){
+            $.ajax({
+                type:'POST',
+                url: sendurl,
+                data: formelement.serialize(),
+                cache: false,
+                success: function(html){
+                    // Insert new comment after the form
+                    $("#comments"+statusid+" > li:nth-child(1)").after(html);
+                    formelement.find('input:text').val('');
+                }
+            });
+        }
+
+        //  Delete Comment
+        $('#confirm-delete-comment').on('show.bs.modal', function(e) {
+            $(this).find('#deleteCommentButton').attr('onclick', 'DeleteComment("'+$(e.relatedTarget).data('href')+'","'+$(e.relatedTarget).attr('data-id')+'");');
+        });
+        function DeleteComment(sendurl,id){
+            $.ajax({
+                type:'GET',
+                url: sendurl,
+                cache: false,
+                success: function(html){
+                    $('#'+id).remove();
+                    $('#confirm-delete-comment').modal('hide');
+                }
+            });
+        }
+
         $('#confirm-unfriend').on('show.bs.modal', function(e) {
             $(this).find('.unfriendform').attr('action', $(e.relatedTarget).data('href'));
         });
