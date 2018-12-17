@@ -7,7 +7,13 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'SocMed') }}</title>
+    {{--<title>{{ config('app.name', 'SocMed') }}</title>--}}
+    <title>
+        @if($totalNotifications>0)
+            ({{$totalNotifications}})
+        @endif
+        {{ config('app.name', 'SocMed') }} - @yield('pageTitle')
+    </title>
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>

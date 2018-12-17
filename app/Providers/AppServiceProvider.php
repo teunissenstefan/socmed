@@ -24,9 +24,12 @@ class AppServiceProvider extends ServiceProvider
                 $user->stillonline();
                 $pendingFriendRequestsForMe = count($user->pendingFriendRequestsForMe);
                 $countMessagesForMe = count($user->unreadMessages());
+
+                $totalNotifications = $pendingFriendRequestsForMe+$countMessagesForMe;
                 $data = [
                     'countFriendRequestsForMe' => $pendingFriendRequestsForMe,
-                    'countMessagesForMe' => $countMessagesForMe
+                    'countMessagesForMe' => $countMessagesForMe,
+                    'totalNotifications' => $totalNotifications
                 ];
                 $view->with($data);
             }
