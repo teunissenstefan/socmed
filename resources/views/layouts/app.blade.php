@@ -194,7 +194,7 @@
             $(this).find('.delform').attr('action', $(e.relatedTarget).data('href'));
         });
 
-
+        //  Post Comment
         function PostComment(formelement,statusid,sendurl){
             $.ajax({
                 type:'POST',
