@@ -140,10 +140,6 @@
             }
         }
     }, true);
-    var check60 = setInterval(function () {
-        $.get("{{route('stillonline')}}");
-
-    }, 60000);
     var check30 = setInterval(function () {
         onlineFriends();
     }, 30000);

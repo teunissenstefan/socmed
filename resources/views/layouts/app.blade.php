@@ -194,6 +194,7 @@
         </div>
     </div>
     <script>
+        @auth
         $(document).on('click', '[data-toggle="lightbox"]', function(event) {
             event.preventDefault();
             $(this).ekkoLightbox();
@@ -233,9 +234,15 @@
             });
         }
 
+        var check60 = setInterval(function () {
+            $.get("{{route('stillonline')}}");
+
+        }, 60000);
+
         $('#confirm-unfriend').on('show.bs.modal', function(e) {
             $(this).find('.unfriendform').attr('action', $(e.relatedTarget).data('href'));
         });
+        @endif
     </script>
 </body>
 </html>
