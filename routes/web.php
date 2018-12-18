@@ -56,5 +56,6 @@ Route::get('/addfriend/{id}','FriendController@addfriend')->name('friends.add');
 Route::get('/cancelrequest/{id}','FriendController@cancelrequest')->name('friends.cancel');
 Route::get('/acceptrequest/{id}','FriendController@acceptrequest')->name('friends.accept');
 Route::delete('/unfriend/{id}','FriendController@unfriend')->name('friends.unfriend');
+Route::get('/onlinefriends','FriendController@onlinefriends')->name('friends.online');
 
 Auth::routes();

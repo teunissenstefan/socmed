@@ -29,21 +29,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $onlinefriends = User::where('last_online','>=',Carbon::now()->subMinutes(5)->toDateTimeString())
-            ->where(function($q) {
-                    $q->whereIn('id', function($query){
-                        $query->select('friend_id')
-                            ->from('friends')
-                            ->where('accepted',1)
-                            ->where('user_id','=',Auth::user()->id);
-                    })->orWhereIn('id', function($query){
-                        $query->select('user_id')
-                            ->from('friends')
-                            ->where('accepted',1)
-                            ->where('friend_id','=',Auth::user()->id);
-                    });
-                })->get();
-        return view('home')->with('onlinefriends',$onlinefriends);
+        return view('home');
     }
 
     public function search(Request $request, $searchQuery){

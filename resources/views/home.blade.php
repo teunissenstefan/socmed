@@ -10,14 +10,8 @@
                 <div class="card-header">
                     Online friends
                 </div>
-                <div class="card-body">
-                    @if(count($onlinefriends)>0)
-                        @foreach($onlinefriends as $user)
-                            <a href="{{route('profile', ['id' => $user->id])}}">{{$user->name}} {{$user->lastname}}</a><br/>
-                        @endforeach
-                    @else
-                        None of your friends are online
-                    @endif
+                <div class="card-body" id="onlineFriends">
+
                 </div>
             </div>
         </div>
@@ -122,6 +116,7 @@
                 $("#statuscontainer").append(html);
             }
         });
+        onlineFriends();
     } );
 
     var processing = false;
@@ -145,9 +140,22 @@
             }
         }
     }, true);
-    var stillonline = setInterval(function () {
+    var check60 = setInterval(function () {
         $.get("{{route('stillonline')}}");
 
     }, 60000);
+    var check30 = setInterval(function () {
+        onlineFriends();
+    }, 30000);
+
+    function onlineFriends(){
+        $.ajax({
+            url: "{{route('friends.online')}}",
+            cache: false,
+            success: function(html){
+                $("#onlineFriends").html(html);
+            }
+        });
+    }
 </script>
 @endsection

@@ -8,6 +8,7 @@ use Session;
 use Redirect;
 use App\Friend;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class FriendController extends Controller
 {
@@ -29,6 +30,24 @@ class FriendController extends Controller
             'actualFriends' => $actualFriends
         ];
         return view('friends')->with($data);
+    }
+
+    public function onlinefriends(){
+        $onlinefriends = User::where('last_online','>=',Carbon::now()->subMinutes(5)->toDateTimeString())
+            ->where(function($q) {
+                $q->whereIn('id', function($query){
+                    $query->select('friend_id')
+                        ->from('friends')
+                        ->where('accepted',1)
+                        ->where('user_id','=',Auth::user()->id);
+                })->orWhereIn('id', function($query){
+                    $query->select('user_id')
+                        ->from('friends')
+                        ->where('accepted',1)
+                        ->where('friend_id','=',Auth::user()->id);
+                });
+            })->get();
+        return view('bits.onlinefriends')->with('onlinefriends',$onlinefriends);
     }
 
     public function addfriend(Request $request, $id){

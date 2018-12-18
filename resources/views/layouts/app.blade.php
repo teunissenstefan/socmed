@@ -9,9 +9,11 @@
 
     {{--<title>{{ config('app.name', 'SocMed') }}</title>--}}
     <title>
-        @if($totalNotifications>0)
-            ({{$totalNotifications}})
-        @endif
+        @auth
+            @if($totalNotifications>0)
+                ({{$totalNotifications}})
+            @endif
+        @endauth
         {{ config('app.name', 'SocMed') }} - @yield('pageTitle')
     </title>
 
