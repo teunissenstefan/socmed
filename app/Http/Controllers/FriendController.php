@@ -32,6 +32,10 @@ class FriendController extends Controller
         return view('friends')->with($data);
     }
 
+    public function getrequests(){
+        return count(Auth::user()->pendingFriendRequestsForMe);
+    }
+
     public function onlinefriends(){
         $onlinefriends = User::where('last_online','>=',Carbon::now()->subMinutes(5)->toDateTimeString())
             ->where(function($q) {

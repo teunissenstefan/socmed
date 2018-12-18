@@ -33,6 +33,10 @@ class MessageController extends Controller
         return view('messages.index')->with($data);
     }
 
+    public function getcount(){
+        return count(Auth::user()->unreadMessages());
+    }
+
     /**
      * Show the form for creating a new resource.
      *

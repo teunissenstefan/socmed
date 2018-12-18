@@ -14,7 +14,7 @@
                 ({{$totalNotifications}})
             @endif
         @endauth
-        {{ config('app.name', 'SocMed') }} - @yield('pageTitle')
+        @yield('pageTitle') - {{ config('app.name', 'SocMed') }}
     </title>
 
     <!-- Scripts -->
@@ -50,8 +50,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        @guest
-                        @else
+                        @auth
                             <form class="form-inline"method="post" action="{{route('processSearchForm')}}">
                                 <input class="form-control mr-sm-2" name="searchQuery" value="@if(isset($searchQuery)){{$searchQuery}}@endif" type="search" placeholder="Search people" aria-label="Search">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -74,16 +73,12 @@
                         @else
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('messages.index') }}">{{ __('Messages') }}
-                                    @if($countMessagesForMe)
-                                        <span class="badge badge-primary">{{$countMessagesForMe}}</span>
-                                    @endif
+                                        <span class="badge badge-primary @if($countMessagesForMe) @else d-none @endif" id="unreadMessageCountBadge">{{$countMessagesForMe}}</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('friends.show') }}">{{ __('Friends') }}
-                                    @if($countFriendRequestsForMe)
-                                        <span class="badge badge-primary">{{$countFriendRequestsForMe}}</span>
-                                    @endif
+                                        <span class="badge badge-primary @if($countFriendRequestsForMe) @else d-none @endif" id="friendRequestsForMeBadge">{{$countFriendRequestsForMe}}</span>
                                 </a>
                             </li>
                             <li class="nav-item dropdown">
@@ -202,6 +197,51 @@
         $('#confirm-delete').on('show.bs.modal', function(e) {
             $(this).find('.delform').attr('action', $(e.relatedTarget).data('href'));
         });
+
+        if (("Notification" in window)) {
+            if (Notification.permission !== 'denied' && Notification.permission !=='granted') {
+                Notification.requestPermission();
+            }
+            var oldrequests = {{$countFriendRequestsForMe}};
+            var oldmessagecount = {{$countMessagesForMe}};
+            var check10 = setInterval(function () {
+                $.ajax({
+                    type:'GET',
+                    url: '{{route('friends.count')}}',
+                    cache: false,
+                    success: function(html){
+                        var newrequests = Number(html);
+                        if(newrequests>oldrequests){
+                            Notify("You have new friend requests!");
+                            $('#friendRequestsForMeBadge').removeClass("d-none");
+                            $('#friendRequestsForMeBadge').html(newrequests);
+                        }
+                        oldrequests = newrequests;
+                    }
+                });
+                $.ajax({
+                    type:'GET',
+                    url: '{{route('messages.count')}}',
+                    cache: false,
+                    success: function(html){
+                        var newmessagecount = Number(html);
+                        if(newmessagecount>oldmessagecount){
+                            Notify("You have new messages!");
+                            $('#unreadMessageCountBadge').removeClass("d-none");
+                            $('#unreadMessageCountBadge').html(newmessagecount);
+                        }
+                        oldmessagecount = newmessagecount;
+                    }
+                });
+            }, 10000);
+        }
+        function Notify(msg){
+            if (Notification.permission !== 'denied' && Notification.permission !=='granted') {
+                Notification.requestPermission();
+            }else if(Notification.permission =='granted'){
+                var notification = new Notification(msg);
+            }
+        }
 
         //  Post Comment
         function PostComment(formelement,statusid,sendurl){

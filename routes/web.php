@@ -32,6 +32,7 @@ Route::get('/messages/reply/{messageid}','MessageController@reply')->name('messa
 Route::post('/messages/new/{userid}','MessageController@store');
 Route::get('/messages/{messageid}','MessageController@show')->name('messages.show');
 Route::delete('/messages/{id}/delete','MessageController@delete')->name('messages.delete');
+Route::get('/getmessagecount','MessageController@getcount')->name('messages.count');
 
 //Status routes
 Route::post('/submit', 'StatusController@store');
@@ -57,5 +58,6 @@ Route::get('/cancelrequest/{id}','FriendController@cancelrequest')->name('friend
 Route::get('/acceptrequest/{id}','FriendController@acceptrequest')->name('friends.accept');
 Route::delete('/unfriend/{id}','FriendController@unfriend')->name('friends.unfriend');
 Route::get('/onlinefriends','FriendController@onlinefriends')->name('friends.online');
+Route::get('/getrequests','FriendController@getrequests')->name('friends.count');
 
 Auth::routes();
