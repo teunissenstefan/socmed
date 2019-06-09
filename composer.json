@@ -10,7 +10,8 @@
         "guzzlehttp/guzzle": "~6.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
-        "laravelcollective/html": "^5.4.0"
+        "laravelcollective/html": "^5.4.0",
+        "poowf/otter": "dev-master"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

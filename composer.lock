@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "693225a4fd4f5e88f980bc034923ef01",
+    "content-hash": "8d86ecbcab9651e02d20d496292a5a5d",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1676,6 +1676,59 @@
                 "promise"
             ],
             "time": "2016-01-26T13:27:02+00:00"
+        },
+        {
+            "name": "poowf/otter",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/poowf/otter.git",
+                "reference": "eb5e2c18a13e7caba9b67ab56535a7a694413a83"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/poowf/otter/zipball/eb5e2c18a13e7caba9b67ab56535a7a694413a83",
+                "reference": "eb5e2c18a13e7caba9b67ab56535a7a694413a83",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "5.5 - 5.8",
+                "illuminate/routing": "5.5 - 5.8",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Poowf\\Otter\\OtterServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Poowf\\Otter\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Zane J. Chua",
+                    "email": "zane@poowf.com"
+                }
+            ],
+            "description": "A relatively automatic CRUD backend administration panel for Laravel",
+            "keywords": [
+                "administration",
+                "backend",
+                "laravel"
+            ],
+            "time": "2019-05-28 02:09:27"
         },
         {
             "name": "psr/container",
@@ -4997,7 +5050,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "poowf/otter": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

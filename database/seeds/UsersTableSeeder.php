@@ -17,6 +17,7 @@ class UsersTableSeeder extends Seeder
         $admin->birthdate           = \Carbon\Carbon::now()->toDateString();
         $admin->gender              = \App\Gender::first()->id;
         $admin->email               = "admin@admin.admin";
+        $admin->admin               = true;
         $admin->password            = \Illuminate\Support\Facades\Hash::make("admin");
         $admin->save();
 
