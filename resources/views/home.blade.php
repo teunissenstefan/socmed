@@ -95,6 +95,11 @@
 
 
             </div>
+            <div class="col-12 text-center mt-4 d-none" id="loadingSpinner">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -122,8 +127,10 @@
     var processing = false;
     var start = 1;
     document.addEventListener('scroll', function (event) {
-        if ($(window).scrollTop() >= ($(document).height() - $(window).height())*0.9){
+        // if ($(window).scrollTop() >= ($(document).height() - $(window).height())*0.9){// 10%
+        if ($(window).scrollTop() >= ($(document).height() - $(window).height())*0.8){// 20%
             if(processing==false){
+                $("#loadingSpinner").removeClass('d-none').addClass('d-block');
                 console.log("ay");
                 processing = true;
                 var url = '{{ route("getstatuseshome", ":start") }}';
@@ -132,9 +139,17 @@
                     url: url,
                     cache: false,
                     success: function(html){
-                        processing = false;
+                        console.log("success");
                         $("#statuscontainer").append(html);
                         start++;
+                    },
+                    error: function() {
+                        console.log("error");
+                    },
+                    complete: function() {
+                        console.log("always");
+                        processing = false;
+                        $("#loadingSpinner").removeClass('d-block').addClass('d-none');
                     }
                 });
             }
