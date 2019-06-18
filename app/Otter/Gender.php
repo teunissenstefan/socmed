@@ -18,7 +18,7 @@ class Gender extends OtterResource
      *
      * @var string
      */
-    public static $title = 'title';
+    public static $title = 'gender';
 
     /**
      * Get the fields and types used by the resource

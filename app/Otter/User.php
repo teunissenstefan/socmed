@@ -18,7 +18,7 @@ class User extends OtterResource
      *
      * @var string
      */
-    public static $title = 'title';
+    public static $title = 'name';
 
     /**
      * Get the fields and types used by the resource
